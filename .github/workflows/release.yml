@@ -5,6 +5,7 @@ on:
   push:
     tags:
       - v*
+  workflow_dispatch:
 
 env:
   FORCE_COLOR: true
@@ -41,13 +42,15 @@ jobs:
         run: |
           chmod +x VencordInstallerCli-linux
 
+      - name: Debug artifact path
+        run: ls -l VencordInstallerCli-linux
+
       - name: Upload artifact
         uses: actions/upload-artifact@v3.1.2
         with:
           name: VencordInstaller-linux
           path: |
             VencordInstallerCli-linux
-
 
   build-mac:
     runs-on: macos-latest
@@ -97,12 +100,14 @@ jobs:
           cp macos/icon.icns VencordInstaller.app/Contents/Resources/icon.icns
           zip -r VencordInstaller.MacOS.zip VencordInstaller.app
 
+      - name: Debug artifact path
+        run: ls -l VencordInstaller.MacOS.zip
+
       - name: Upload artifact
         uses: actions/upload-artifact@v3.1.2
         with:
           name: VencordInstaller-macos
           path: VencordInstaller.MacOS.zip
-
 
   build-windows:
     runs-on: windows-latest
@@ -158,6 +163,11 @@ jobs:
           export GOPATH=/mingw64
           CGO_ENABLED=0 GOOS=windows GOARCH=386 go build -v -tags "static cli" -ldflags "-s -w -extldflags=-static -X 'vencordinstaller/buildinfo.InstallerGitHash=$(git rev-parse --short HEAD)' -X 'vencordinstaller/buildinfo.InstallerTag=${{ github.ref_name }}'" -o VencordInstallerCli.exe
 
+      - name: Debug artifact path
+        run: |
+          ls -l VencordInstaller.exe
+          ls -l VencordInstallerCli.exe
+
       - name: Upload artifact
         uses: actions/upload-artifact@v3.1.2
         with:
@@ -165,7 +175,6 @@ jobs:
           path: |
             VencordInstaller.exe
             VencordInstallerCli.exe
-
 
   release:
     runs-on: ubuntu-latest
