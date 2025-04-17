@@ -12,12 +12,13 @@ import (
 	"errors"
 	"flag"
 	"fmt"
-	"github.com/fatih/color"
-	"github.com/manifoldco/promptui"
 	"os"
 	"slices"
 	"strings"
 	"vencordinstaller/buildinfo"
+
+	"github.com/fatih/color"
+	"github.com/manifoldco/promptui"
 )
 
 var discords []any
@@ -46,9 +47,9 @@ func main() {
 	var helpFlag = flag.Bool("help", false, "View usage instructions")
 	var versionFlag = flag.Bool("version", false, "View the program version")
 	var updateSelfFlag = flag.Bool("update-self", false, "Update me to the latest version")
-	var installFlag = flag.Bool("install", false, "Install Vencord")
-	var updateFlag = flag.Bool("repair", false, "Repair Vencord")
-	var uninstallFlag = flag.Bool("uninstall", false, "Uninstall Vencord")
+	var installFlag = flag.Bool("install", false, "Install Tallycord")
+	var updateFlag = flag.Bool("repair", false, "Repair Tallycord")
+	var uninstallFlag = flag.Bool("uninstall", false, "Uninstall Tallycord")
 	var installOpenAsarFlag = flag.Bool("install-openasar", false, "Install OpenAsar")
 	var uninstallOpenAsarFlag = flag.Bool("uninstall-openasar", false, "Uninstall OpenAsar")
 	var locationFlag = flag.String("location", "", "The location of the Discord install to modify")
@@ -104,13 +105,13 @@ func main() {
 		}()
 
 		choices := []string{
-			"Install Vencord",
-			"Repair Vencord",
-			"Uninstall Vencord",
+			"Install Tallycord",
+			"Repair Tallycord",
+			"Uninstall Tallycord",
 			"Install OpenAsar",
 			"Uninstall OpenAsar",
 			"View Help Menu",
-			"Update Vencord Installer",
+			"Update Tallycord Installer",
 			"Quit",
 		}
 		_, choice, err := (&promptui.Select{
@@ -125,7 +126,7 @@ func main() {
 			return
 		case "Quit":
 			return
-		case "Update Vencord Installer":
+		case "Update Tallycord Installer":
 			if err := UpdateSelf(); err != nil {
 				Log.Error("Failed to update self:", err)
 				exitFailure()
